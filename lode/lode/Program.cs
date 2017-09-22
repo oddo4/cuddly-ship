@@ -10,6 +10,7 @@ namespace lode
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("Ahoj světe");
         }
     }
 }
