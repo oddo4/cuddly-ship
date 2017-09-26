@@ -61,7 +61,7 @@ namespace lode
                                 {
                                     clearcons();
                                     urcenipole(x, y, typLode, smerLode);
-                                    //testpole();
+                                    testpole();
 
                                     pozice = false;
                                     smer = false;
@@ -121,7 +121,7 @@ namespace lode
             }
         }
 
-        /*static void testpole()
+        static void testpole()
         {
             for (int i = 0; i < limitpole.GetLength(0); i++)
             {
@@ -135,7 +135,7 @@ namespace lode
                 Console.WriteLine(" " + rada);
                 rada = "";
             }
-        }*/
+        }
 
 
 
@@ -160,10 +160,14 @@ namespace lode
                                 if (k < 1)
                                 {
                                     limitpole[X, Y + 1] = 1;
+                                    limitpole[X + 1, Y + 1] = 1;
+                                    limitpole[X - 1, Y + 1] = 1;
                                 }
                                 else if (k > typ - 1)
                                 {
                                     limitpole[X, Y - k - 1] = 1;
+                                    limitpole[X + 1, Y - k - 1] = 1;
+                                    limitpole[X - 1, Y - k - 1] = 1;
                                 }
                             }
                             else if (limitpole[X, Y + k] == 0)
@@ -176,10 +180,14 @@ namespace lode
                                 if (k < 1)
                                 {
                                     limitpole[X, Y - 1] = 1;
+                                    limitpole[X + 1, Y - 1] = 1;
+                                    limitpole[X - 1, Y - 1] = 1;
                                 }
                                 else if (k > typ - 1)
                                 {
                                     limitpole[X, Y + k + 1] = 1;
+                                    limitpole[X + 1, Y + k + 1] = 1;
+                                    limitpole[X - 1, Y + k + 1] = 1;
                                 }
                             }
                             else
@@ -188,7 +196,7 @@ namespace lode
                             }
                             break;
                         case 2:
-                            if (X + typ > 9 && limitpole[X - k, Y] == 0)
+                            if (X + typ > 9 && limitpole[X - k, Y] == 0 && limitpole[X + k, Y] == 0)
                             {
                                 lodepole[X - k, Y] = " O ";
                                 limitpole[X - k, Y] = 1;
@@ -198,13 +206,17 @@ namespace lode
                                 if (k < 1)
                                 {
                                     limitpole[X + 1, Y] = 1;
+                                    limitpole[X + 1, Y + 1] = 1;
+                                    limitpole[X + 1, Y - 1] = 1;
                                 }
                                 else if (k > typ - 1)
                                 {
                                     limitpole[X - k - 1, Y] = 1;
+                                    limitpole[X - k - 1, Y + 1] = 1;
+                                    limitpole[X - k - 1, Y - 1] = 1;
                                 }
                             }
-                            else if (limitpole[X + k, Y] == 0)
+                            else if (limitpole[X + k, Y] == 0 && limitpole[X - k, Y] == 0)
                             {
                                 lodepole[X + k, Y] = " O ";
                                 limitpole[X + k, Y] = 1;
@@ -214,10 +226,14 @@ namespace lode
                                 if (k < 1)
                                 {
                                     limitpole[X - 1, Y] = 1;
+                                    limitpole[X - 1, Y + 1] = 1;
+                                    limitpole[X - 1, Y - 1] = 1;
                                 }
                                 else if (k > typ - 1)
                                 {
                                     limitpole[X + k + 1, Y] = 1;
+                                    limitpole[X + k + 1, Y + 1] = 1;
+                                    limitpole[X + k + 1, Y - 1] = 1;
                                 }
                             }
                             else
