@@ -36,15 +36,11 @@ namespace lode
             {
                 clearcons();
                 nactenipole(lodepole, false);
-                //testpole();
+                testpole();
 
                 if (faultcode != 0)
                 {
                     Console.WriteLine(faultZprava(faultcode));
-                    Console.ReadKey();
-
-                    clearcons();
-                    nactenipole(lodepole, false);
                 }
 
                 Console.WriteLine("Počet lodí: 2 místný - {0}/4, 3 místný - {1}/2, 4 místný - {2}/1", ctrlode[ctr], ctrlode[ctr + 1], ctrlode[ctr + 2]);
@@ -68,10 +64,6 @@ namespace lode
                             if (faultcode != 0)
                             {
                                 Console.WriteLine(faultZprava(faultcode));
-                                Console.ReadKey();
-
-                                clearcons();
-                                nactenipole(lodepole, false);
                             }
 
                             Console.WriteLine("Vyber počáteční pozici X a Y (čisla od 0 do 9):");
@@ -93,10 +85,6 @@ namespace lode
                                     if (faultcode != 0)
                                     {
                                         Console.WriteLine(faultZprava(faultcode));
-                                        Console.ReadKey();
-
-                                        clearcons();
-                                        nactenipole(lodepole, false);
                                     }
 
                                     Console.WriteLine("Vyber směr (1 = horizontalne, 2 = vertikalne):");
@@ -147,7 +135,6 @@ namespace lode
                     {
                         clearcons();
                         nactenipole(lodepole, false);
-                        Console.WriteLine("Umístění lodí {0}. hráče dokončeno!",poradi);
                         Console.WriteLine("Stiskněte libovolnou klávesu ...");
                         Console.ReadKey();
 
@@ -159,7 +146,6 @@ namespace lode
                     {
                         clearcons();
                         nactenipole(lodepole, false);
-                        Console.WriteLine("Umístění lodí {0}. hráče dokončeno!",poradi);
                         Console.WriteLine("Stiskněte libovolnou klávesu ...");
                         Console.ReadKey();
 
@@ -177,18 +163,11 @@ namespace lode
                 clearcons();
                 Console.WriteLine("Hra v průběhu!");
                 soubojpole(hracipole1, hracipole2);
-                //testpole();
 
                 if (faultcode != 0)
                 {
                     Console.WriteLine(faultZprava(faultcode));
-                    Console.ReadKey();
-
-                    clearcons();
-                    Console.WriteLine("Hra v průběhu!");
-                    soubojpole(hracipole1, hracipole2);
                 }
-
                 Console.WriteLine("Hraje {0}. hráč", poradi);
                 Console.WriteLine("Vyberte pozici X a Y (čisla od 0 do 9):");
                 Console.Write("X: ");
@@ -200,12 +179,12 @@ namespace lode
                 {
                     if (poradi == 1)
                     {
-                        utokpole(x, y, hrac2pole, hracipole2);
+                        Console.WriteLine(utokpole(x, y, hrac1pole, hracipole1));
                         poradi += 1;
                     }
                     else if (poradi == 2)
                     {
-                        utokpole(x, y, hrac1pole, hracipole1);
+                        Console.WriteLine(utokpole(x, y, hrac2pole, hracipole2));
                         poradi -= 1;
                     }
                 }
@@ -330,26 +309,177 @@ namespace lode
         static void urcenipole(int X, int Y, int typ, int smer, int[,] pole)
         {
             int[,] pompole = new int[2, typ];
-            bool stop = false;
 
             if (pole[X, Y] == 0)
             {
-                switch (smer)
+                /*
+                for (int k = 0; k < typ + 1; k++)
                 {
-                    case 1:
-                        if (Y + typ > 9 && pole[X, Y - 1] == 0 || pole[X, Y + 1] == 1) // X, Y - k
-                        {
-                            for (int l = 0; l < typ + 1; l++)
+                    switch (smer)
+                    {
+                        case 1:
+                            if (Y + typ > 9 && pole[X, Y - k] == 0 || pole[X, Y + k] == 1)
                             {
-                                if (pole[X, Y - l] != 0)
+                                for (int l = 0; l < typ; l++)
                                 {
-                                    faultcode = 5;
-                                    stop = true;
+                                    if (pole[X, Y - l] != 0) {
+                                        faultcode = 5;
+                                        k = typ + 1;
+                                        break;
+                                    }
+                                }
+
+                                lodepole[X, Y - k] = " O ";
+                                pole[X, Y - k] = 2;
+
+                                if (X - 1 >= 0)
+                                {
+                                    pole[X - 1, Y - k] = 1;
+                                }
+
+                                if (X + 1 <= 9)
+                                {
+                                    pole[X + 1, Y - k] = 1;
+                                }
+
+                                if (k < 1 && Y + 1 <= 9)
+                                {
+                                    pole[X, Y + 1] = 1;
+                                }
+                                else if (k > typ - 1 && Y - k - 1 >= 0)
+                                {
+                                    pole[X, Y - k - 1] = 1;
                                 }
                             }
-
-                            if (stop == false)
+                            else if (pole[X, Y + k] == 0 || pole[X, Y + k] == 1)
                             {
+                                for (int l = 0; l < typ; l++)
+                                {
+                                    if (pole[X, Y + l] != 0)
+                                    {
+                                        faultcode = 5;
+                                        k = typ + 1;
+                                        break;
+                                    }
+                                }
+
+                                lodepole[X, Y + k] = " O ";
+                                pole[X, Y + k] = 2;
+
+                                if (X - 1 >= 0)
+                                {
+                                    pole[X - 1, Y + k] = 1;
+                                }
+
+                                if (X + 1 <= 9)
+                                {
+                                    pole[X + 1, Y + k] = 1;
+                                }
+
+                                if (k < 1 && Y - 1 >= 0)
+                                {
+                                    pole[X, Y - 1] = 1;
+                                }
+                                else if (k > typ - 1 && Y + k + 1 <= 9)
+                                {
+                                    pole[X, Y + k + 1] = 1;
+                                }
+                            }
+                            else
+                            {
+                                faultcode = 5;
+                            }
+                            break;
+                        case 2:
+                            if (X + typ > 9 && pole[X - k, Y] == 0 || pole[X + k, Y] == 1)
+                            {
+                                for (int l = 0; l < typ; l++)
+                                {
+                                    if (pole[X - l, Y] != 0)
+                                    {
+                                        faultcode = 5;
+                                        k = typ + 1;
+                                        break;
+                                    }
+                                }
+
+                                lodepole[X - k, Y] = " O ";
+                                pole[X - k, Y] = 2;
+
+                                if (Y + 1 <= 9)
+                                {
+                                    pole[X - k, Y + 1] = 1;
+                                }
+
+                                if (Y - 1 >= 0)
+                                {
+                                    pole[X - k, Y - 1] = 1;
+                                }
+
+                                if (k < 1 && X + 1 <= 9)
+                                {
+                                    pole[X + 1, Y] = 1;
+                                }
+                                else if (k > typ - 1 && X - k - 1 >= 0)
+                                {
+                                    pole[X - k - 1, Y] = 1;
+                                }
+                            }
+                            else if (pole[X + k, Y] == 0 || pole[X - k, Y] == 1)
+                            {
+                                for (int l = 0; l < typ; l++)
+                                {
+                                    if (pole[X + l, Y] != 0)
+                                    {
+                                        faultcode = 5;
+                                        k = typ + 1;
+                                        break;
+                                    }
+                                }
+
+                                lodepole[X + k, Y] = " O ";
+                                pole[X + k, Y] = 2;
+
+                                if (Y + 1 <= 9)
+                                {
+                                    pole[X + k, Y + 1] = 1;
+                                }
+
+                                if (Y - 1 >= 0)
+                                {
+                                    pole[X + k, Y - 1] = 1;
+                                }
+
+                                if (k < 1 && X - 1 >= 0)
+                                {
+                                    pole[X - 1, Y] = 1;
+                                }
+                                else if (k > typ - 1 && X + k + 1 <= 9)
+                                {
+                                    pole[X + k + 1, Y] = 1;
+                                }
+                            }
+                            else
+                            {
+                                faultcode = 5;
+                            }
+                            break;
+                    }
+                }*/
+                    switch (smer)
+                    {
+                        case 1:
+                            if (Y + typ > 9) // X, Y - k
+                            {
+                                for (int l = 0; l < typ; l++)
+                                {
+                                    if (pole[X, Y - l] != 0)
+                                    {
+                                        faultcode = 5;
+                                        break;
+                                    }
+                                }
+
                                 for (int k = 0; k < typ + 1; k++)
                                 {
                                     lodepole[X, Y - k] = " O ";
@@ -374,24 +504,18 @@ namespace lode
                                         pole[X, Y - k - 1] = 1;
                                     }
                                 }
-
-                                ctrlode[ctr + typ - 1] += 1;
                             }
-                            
-                        }
-                        else if (pole[X, Y + 1] == 0 || pole[X, Y + 1] == 1) // X, Y + k
-                        {
-                            for (int l = 0; l < typ + 1; l++)
+                            else if (Y + typ < 9) // X, Y + k
                             {
-                                if (pole[X, Y + l] != 0)
+                                for (int l = 0; l < typ; l++)
                                 {
-                                    faultcode = 5;
-                                    stop = true;
+                                    if (pole[X, Y + l] != 0)
+                                    {
+                                        faultcode = 5;
+                                        break;
+                                    }
                                 }
-                            }
 
-                            if (stop == false)
-                            {
                                 for (int k = 0; k < typ + 1; k++)
                                 {
                                     lodepole[X, Y + k] = " O ";
@@ -416,30 +540,26 @@ namespace lode
                                         pole[X, Y + k + 1] = 1;
                                     }
                                 }
-
-                                ctrlode[ctr + typ - 1] += 1;
                             }
-                        }
-                        else
-                        {
-                            faultcode = 5;
-                        }
-
-                        break;
-                    case 2:
-                        if (X + typ > 9 && pole[X - 1, Y] == 0 || pole[X + 1, Y] == 1) // X - k, Y
-                        {
-                            for (int l = 0; l < typ + 1; l++)
+                            else
                             {
-                                if (pole[X - l, Y] != 0)
+                                faultcode = 5;
+                            }
+
+                            ctrlode[ctr + typ - 1] += 1;
+                            break;
+                        case 2:
+                            if (X + typ > 9) // X - k, Y
+                            {
+                                for (int l = 0; l < typ; l++)
                                 {
-                                    faultcode = 5;
-                                    stop = true;
+                                    if (pole[X - l, Y] != 0)
+                                    {
+                                        faultcode = 5;
+                                        break;
+                                    }
                                 }
-                            }
 
-                            if (stop == false)
-                            {
                                 for (int k = 0; k < typ + 1; k++)
                                 {
                                     lodepole[X - k, Y] = " O ";
@@ -464,22 +584,18 @@ namespace lode
                                         pole[X - k - 1, Y] = 1;
                                     }
                                 }
-
-                                ctrlode[ctr + typ - 1] += 1;
                             }
-                        }
-                        else if (pole[X + 1, Y] == 0 || pole[X - 1, Y] == 1) // X - k, Y
-                        {
-                            for (int l = 0; l < typ + 1; l++)
+                            else if (X + typ < 9) // X - k, Y
                             {
-                                if (pole[X + l, Y] != 0)
+                                for (int l = 0; l < typ; l++)
                                 {
-                                    faultcode = 5;
-                                    stop = true;
+                                    if (pole[X + l, Y] != 0)
+                                    {
+                                        faultcode = 5;
+                                        break;
+                                    }
                                 }
-                            }
-                            if (stop == false)
-                            {
+
                                 for (int k = 0; k < typ + 1; k++)
                                 {
                                     lodepole[X + k, Y] = " O ";
@@ -504,17 +620,15 @@ namespace lode
                                         pole[X + k + 1, Y] = 1;
                                     }
                                 }
-
-                                ctrlode[ctr + typ - 1] += 1;
                             }
-                        }
-                        else
-                        {
-                            faultcode = 5;
-                        }
+                            else
+                            {
+                                faultcode = 5;
+                            }
 
-                        break;
-                }
+                            ctrlode[ctr + typ - 1] += 1;
+                            break;
+                    }
             }
             else
             {
@@ -522,41 +636,24 @@ namespace lode
             }
         }
 
-        static void utokpole(int X, int Y, int[,] pole, string[,] hracipole)
+        static string utokpole(int X, int Y, int[,] pole, string[,] hracipole)
         {
-            if (pole[X, Y] != 3)
-            {
-                if (pole[X, Y] == 2)
-                {
-                    pole[X, Y] = 3;
-                    hracipole[X, Y] = " X ";
+            string zprava = "Něco je špatně!";
 
-                    if (X + 1 <= 9 && pole[X + 1, Y] == 2 || X - 1 >= 0 && pole[X - 1, Y] == 2)
-                    {
-                        Console.WriteLine("Zásah!");
-                    }
-                    else if (Y + 1 <= 9 && pole[X, Y + 1] == 2 || Y - 1 >= 0 && pole[X, Y - 1] == 2)
-                    {
-                        Console.WriteLine("Zásah!");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Potopeno!");
-                    }
-                }
-                else
-                {
-                    pole[X, Y] = 3;
-                    hracipole[X, Y] = " # ";
-                    Console.WriteLine("Vedle!");
-                }
+            if (pole[X, Y] == 2)
+            {
+                pole[X, Y] = 3;
+                hracipole[X, Y] = " X ";
+                zprava = "Zásah!";
             }
             else
             {
-                faultcode = 6;
+                pole[X, Y] = 3;
+                hracipole[X, Y] = " # ";
+                zprava = "Vedle!";
             }
-               
 
+            return zprava;
         }
 
         static bool pocetLodi(int typ)
@@ -606,9 +703,6 @@ namespace lode
                     break;
                 case 5:
                     zprava = "Na tuto pozici nemůžeš umístit loď!";
-                    break;
-                case 6:
-                    zprava = "Tuto pozici jste už sestřelili!";
                     break;
             }
 
