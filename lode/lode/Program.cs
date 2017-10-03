@@ -208,6 +208,7 @@ namespace lode
                         utokpole(x, y, hrac1pole, hracipole1);
                         poradi -= 1;
                     }
+                    Console.ReadKey();
                 }
                 else
                 {
@@ -218,7 +219,6 @@ namespace lode
                 {
                     souboj = false;
                 }
-                Console.ReadKey();
             }
             /* SOUBOJ END */
         }
