@@ -53,7 +53,7 @@ namespace OOP1
                 while (vkladani)
                 {
                     clearcons();
-                    zobrazeni(seznam);
+                    zobrazeni(automat, seznam);
                     Console.WriteLine("Vloženo: {0}Kč", celkem);
 
                     string pocetPenez = Console.ReadLine();
@@ -73,25 +73,33 @@ namespace OOP1
                 while (vyber)
                 {
                     clearcons();
-                    zobrazeni(seznam);
+                    zobrazeni(automat, seznam);
                     Console.WriteLine("Vloženo: {0}Kč", celkem);
 
                     string kod = Console.ReadLine();
 
-                    for (int i = 0; i < seznam.Count; i++)
+                    if (kod != "0")
                     {
-                        if (seznam[i].KodPolozky == kod && seznam[i].PocetPolozky > 0)
+                        for (int i = 0; i < seznam.Count; i++)
                         {
-                            index = i;
-                            cena = seznam[i].CenaPolozky;
-                            vyber = false;
-                        }
-                        else if (seznam[i].PocetPolozky == 0)
-                        {
-                            Console.WriteLine("Nedostupná položka.");
-                            Console.ReadKey();
-                        }
+                            if (seznam[i].KodPolozky == kod && seznam[i].PocetPolozky > 0)
+                            {
+                                index = i;
+                                cena = seznam[i].CenaPolozky;
+                                vyber = false;
+                            }
+                            else if (seznam[i].PocetPolozky == 0)
+                            {
+                                Console.WriteLine("Nedostupná položka.");
+                                Console.ReadKey();
+                            }
+                        }              
                     }
+                    else
+                    {
+                        Console.WriteLine("Ahoj");
+                        Console.ReadKey();
+                    }                        
                 }
 
                 if (vkladani == false && vyber == false)
@@ -133,12 +141,15 @@ namespace OOP1
             }
         }
 
-        static void zobrazeni(List<Polozka> seznam)
+        static void zobrazeni(Automat automat, List<Polozka> seznam)
         {
+            Console.WriteLine("Celkem v automatu: {0}Kč", automat.NastavCelkemPenez());
+
             for (int i = 0; i < seznam.Count; i++)
             {
                 Console.WriteLine(seznam[i].NazevPolozky + " | " + seznam[i].KodPolozky + " | " + seznam[i].CenaPolozky + "Kč | "+seznam[i].PocetPolozky + "x");
             }
+
             Console.WriteLine("________________________");
         }
 
