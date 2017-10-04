@@ -50,5 +50,20 @@ namespace OOP1
 
             return seznamZbozi;
         }
+
+        public List<Polozka> PridatZbozi(string nazev, int cena, int pocet)
+        {
+            pocetZbozi++;
+
+            Polozka polozka = new Polozka();
+            polozka.NazevPolozky = nazev;
+            polozka.KodPolozky = "A"+ pocetZbozi;
+            polozka.CenaPolozky = cena;
+            polozka.PocetPolozky = pocet;
+
+            seznamZbozi.Add(polozka);
+
+            return seznamZbozi;
+        }
     }
 }

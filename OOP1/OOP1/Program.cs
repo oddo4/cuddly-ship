@@ -37,14 +37,26 @@ namespace OOP1
             Console.WriteLine(seznamZbozi[2].KodPolozky);
             */
 
+            Automat automat = new Automat();
+
+            while (true)
+            {
+                string vstupNazev = Console.ReadLine();
+                string vstupCena = Console.ReadLine();
+                int cena = int.Parse(vstupCena);
+                string vstupPocet = Console.ReadLine();
+                int pocet = int.Parse(vstupPocet);
+
+                List<Polozka> seznam = automat.PridatZbozi(vstupNazev, cena, pocet);
+            }
+
+            /* AUTOMAT START 
             bool vkladani = true;
             bool vyber = true;
             int celkem = 0;
             int cena = 0;
             int vraceni = 0;
             int index = 0;
-
-            Automat automat = new Automat();
 
             List<Polozka> seznam = automat.Zbozi("Polozka", 10);
 
@@ -139,6 +151,10 @@ namespace OOP1
                     }
                 }
             }
+             AUTOMAT END */
+
+
+
         }
 
         static void zobrazeni(Automat automat, List<Polozka> seznam)
