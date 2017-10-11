@@ -153,6 +153,8 @@ namespace katalog
             }
         }
 
+
+
         static void clearcons()
         {
             Console.Clear();
