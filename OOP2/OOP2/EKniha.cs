@@ -23,7 +23,7 @@ namespace OOP2
             set { uri = value; }
         }
 
-        public EKniha(string Nazev, Autor Autor, int Isbn, string Uri, int VelikostMB)
+        public EKniha(string Nazev, Autor Autor, string Isbn, string Uri, int VelikostMB)
             : base(Nazev, Isbn, Autor)
         {
             uri = Uri;

@@ -23,7 +23,7 @@ namespace OOP2
             set { hmotnost = value; }
         }
 
-        public TistenaKniha(string Nazev, Autor Autor, int Isbn, int Hmotnost, int Kus)
+        public TistenaKniha(string Nazev, Autor Autor, string Isbn, int Hmotnost, int Kus)
             : base(Nazev, Isbn, Autor)
         {
             hmotnost = Hmotnost;

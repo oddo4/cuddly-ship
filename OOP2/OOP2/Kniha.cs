@@ -9,10 +9,10 @@ namespace OOP2
     class Kniha
     {
         private string nazev;
-        private int isbn;
+        private string isbn;
         private Autor autor;
 
-        public Kniha(string Nazev, int Isbn, Autor Autor)
+        public Kniha(string Nazev, string Isbn, Autor Autor)
         {
             nazev = Nazev;
             isbn = Isbn;
@@ -25,7 +25,7 @@ namespace OOP2
             set { autor = value; }
         }
 
-        public int Isbn
+        public string Isbn
         {
             get { return isbn; }
             set { isbn = value; }

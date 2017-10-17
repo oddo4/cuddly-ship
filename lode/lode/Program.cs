@@ -51,7 +51,7 @@ namespace lode
                         nactenipole(lodepole, false);
                     }
 
-                    Console.WriteLine("Počet lodí: 2 místný - {0}/4, 3 místný - {1}/2, 4 místný - {2}/1", ctrlode[ctr], ctrlode[ctr + 1], ctrlode[ctr + 2]);
+                    Console.WriteLine("Počet lodí: 1 = OO - {0}/4, 2 = OOO - {1}/2, 3 = OOOO - {2}/1", ctrlode[ctr], ctrlode[ctr + 1], ctrlode[ctr + 2]);
 
                     Console.WriteLine("Vyber typ lodě (čisla od 1 do 3):");
                     string vstupTypLode = Console.ReadLine(); // 1 = 2, 2 = 3, 3 = 4
@@ -351,7 +351,7 @@ namespace lode
         }
         static void soubojpole(string[,] pole1, string[,] pole2)
         {
-            string odsazeni = "     |      ";
+            string multimezera = "     |      ";
             string rada2 = "";
 
             for (int i = 0; i < pole1.GetLength(0) + 1; i++)
@@ -376,24 +376,24 @@ namespace lode
 
                 if (i == 0)
                 {
-                    Console.WriteLine(" " + horOzn + odsazeni + " " + horOzn);
+                    Console.WriteLine(" " + horOzn + multimezera + " " + horOzn);
                 }
 
                 if (i < pole1.GetLength(0))
                 {
-                    Console.WriteLine(i + rada + " " + odsazeni + i + rada2);
+                    Console.WriteLine(i + rada + " " + multimezera + i + rada2);
                 }
 
                 if (i == pole1.GetLength(0))
                 {
-                    Console.WriteLine("Y                               " + odsazeni + "Y");
+                    Console.WriteLine("Y                               " + multimezera + "Y");
                 }
 
                 horOzn = "";
                 rada = "";
                 rada2 = "";
             }
-            Console.WriteLine("1. hráč počet lodí - {0}          " + odsazeni + "2. hráč počet lodí - {1}" + Environment.NewLine, ctrSouboj[0],ctrSouboj[1]);
+            Console.WriteLine("1. hráč počet lodí - {0}          " + multimezera + "2. hráč počet lodí - {1}" + Environment.NewLine, ctrSouboj[0],ctrSouboj[1]);
         }
 
         static void urcenipole(int X, int Y, int typ, int smer, int[,] pole)
