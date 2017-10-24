@@ -31,7 +31,7 @@ namespace MatHra
         int answerRnd;
         int number1;
         int number2;
-        int i = 5;
+        int i = 10;
         int lives = 3;
         int score = 0;
         ObservableCollection<int> loadhighscores = new ObservableCollection<int>();
@@ -131,10 +131,10 @@ namespace MatHra
             {
                 labelAlert.Content = "Správně!";
                 answersCount++;
-                score += 100;
+                addScore();
                 labelScore.Content = score;
                 progressStatus();
-                i = 5;
+                i = 10;
             }
             else
             {
@@ -157,7 +157,7 @@ namespace MatHra
                 if (i == 0)
                 {
                     labelAlert.Content = "Time out!";
-                    i = 5;
+                    i = 10;
                     loseLife();
                     labelTimer.Content = i.ToString();
                     randomExample();
@@ -176,7 +176,7 @@ namespace MatHra
             }
             else
             {
-                i = 5;
+                i = 10;
             }
         }
 
@@ -186,15 +186,27 @@ namespace MatHra
             labelLives.Content = new string('♥', lives);
         }
 
+        private void addScore()
+        {
+            int timeBonus = 50 - i + level;
+
+            if (i > 5)
+            {
+                timeBonus = 100 - i + level;
+            }
+
+            score += 100 + timeBonus;
+        }
+
         private void highScoreLoad(ObservableCollection<int> loadhighscores, List<Score> highscoresList)
         {
             var engine = new FileHelperEngine<Score>();
 
             var result = engine.ReadFile("MatHraFile.csv");
 
-            foreach (Score highscore in highscoresList)
+            foreach (Score highscore in result)
             {
-                highscore.Add(new Score(highscore.HighScore, highscore.Date));
+                highscoresList.Add(highscore);
                 loadhighscores.Add(highscore.HighScore);
             }
 
@@ -205,20 +217,35 @@ namespace MatHra
         public void highScoreSave()
         {
             var engine = new FileHelperEngine<Score>();
-            Score test = new Score();
+            Score recentScore = new Score();
 
-            test.HighScore = score;
-            test.Date = DateTime.Now;
+            recentScore.HighScore = score;
+            recentScore.Date = DateTime.Now;
 
             List<Score> result = new List<Score>();
-            result.Add(test);
+            bool addedScore = false;
+            int j = 0;
+
+            for (int i = 0; i < 10; i++)
+            {
+                if (scoresList[i].HighScore < recentScore.HighScore && addedScore == false)
+                {
+                    result.Add(recentScore);
+                    addedScore = true;
+                    j++;
+                }
+                else
+                {
+                    result.Add(scoresList[i - j]);
+                }
+            }
 
             engine.WriteFile("MatHraFile.csv", result);
         }
 
         public void gameOver()
         {
-
+            highScoreSave();
         }
     }
 }
