@@ -1,0 +1,29 @@
+﻿<Window x:Class="MatHra.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MatHra"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+        <Label x:Name="labelLivesLabel" Content="Životy" HorizontalAlignment="Left" Margin="20,17,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" Width="86" RenderTransformOrigin="0.492,0.513" Height="26"/>
+        <Label x:Name="labelLives" Content="♥♥♥" FontSize="36" HorizontalAlignment="Left" Margin="20,32,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Left" Width="86" RenderTransformOrigin="0.492,0.513" Height="61"/>
+        <Label x:Name="labelScore" Content="0" FontSize="24" HorizontalAlignment="Left" Margin="20,84,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" Width="86" RenderTransformOrigin="0.492,0.513" Height="44"/>
+        <Label x:Name="labelTimer" Content="" HorizontalAlignment="Left" Margin="180,39,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" Width="152"/>
+        <Label x:Name="labelLevelStatus" Content="Úroveň" HorizontalAlignment="Left" Margin="394,17,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" Width="100"/>
+        <ProgressBar x:Name="progressLevelStatus" HorizontalAlignment="Left" Height="10" Margin="394,55,0,0" VerticalAlignment="Top" Width="100"/>
+        <Label x:Name="labelMathExample" Content="Příklad" HorizontalAlignment="Left" Margin="180,102,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" Width="152"/>
+        <Button x:Name="buttonAnswer1" Content="Odpověď 1" HorizontalAlignment="Left" Margin="141,159,0,0" VerticalAlignment="Top" Width="75" Click="buttonAnswer1_Click"/>
+        <Button x:Name="buttonAnswer2" Content="Odpověď 2" HorizontalAlignment="Left" Margin="300,159,0,0" VerticalAlignment="Top" Width="75" Click="buttonAnswer2_Click"/>
+        <Label x:Name="labelAlert" HorizontalAlignment="Left" Margin="180,205,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" Width="152"/>
+        <ListView x:Name="listViewHighScores" Height="100" Width="100" Margin="20,205,397,14">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+    </Grid>
+</Window>
