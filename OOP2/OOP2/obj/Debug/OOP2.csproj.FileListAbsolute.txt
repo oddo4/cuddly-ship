@@ -1,0 +1,7 @@
+D:\bounlfi15\git\OOP2\OOP2\bin\Debug\OOP2.exe.config
+D:\bounlfi15\git\OOP2\OOP2\bin\Debug\OOP2.exe
+D:\bounlfi15\git\OOP2\OOP2\bin\Debug\OOP2.pdb
+D:\bounlfi15\git\OOP2\OOP2\obj\Debug\OOP2.csprojResolveAssemblyReference.cache
+D:\bounlfi15\git\OOP2\OOP2\obj\Debug\OOP2.csproj.CoreCompileInputs.cache
+D:\bounlfi15\git\OOP2\OOP2\obj\Debug\OOP2.exe
+D:\bounlfi15\git\OOP2\OOP2\obj\Debug\OOP2.pdb

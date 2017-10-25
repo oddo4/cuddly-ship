@@ -1,0 +1,14 @@
+D:\bounlfi15\OOP1\OOP1\bin\Debug\OOP1.exe.config
+D:\bounlfi15\OOP1\OOP1\bin\Debug\OOP1.exe
+D:\bounlfi15\OOP1\OOP1\bin\Debug\OOP1.pdb
+D:\bounlfi15\OOP1\OOP1\obj\Debug\OOP1.csprojResolveAssemblyReference.cache
+D:\bounlfi15\OOP1\OOP1\obj\Debug\OOP1.csproj.CoreCompileInputs.cache
+D:\bounlfi15\OOP1\OOP1\obj\Debug\OOP1.exe
+D:\bounlfi15\OOP1\OOP1\obj\Debug\OOP1.pdb
+D:\bounlfi15\git\OOP1\OOP1\bin\Debug\OOP1.exe.config
+D:\bounlfi15\git\OOP1\OOP1\bin\Debug\OOP1.exe
+D:\bounlfi15\git\OOP1\OOP1\bin\Debug\OOP1.pdb
+D:\bounlfi15\git\OOP1\OOP1\obj\Debug\OOP1.csprojResolveAssemblyReference.cache
+D:\bounlfi15\git\OOP1\OOP1\obj\Debug\OOP1.csproj.CoreCompileInputs.cache
+D:\bounlfi15\git\OOP1\OOP1\obj\Debug\OOP1.exe
+D:\bounlfi15\git\OOP1\OOP1\obj\Debug\OOP1.pdb

@@ -32,7 +32,7 @@ namespace MatHra
 
             if (timer > 5)
             {
-                timeBonus = 100 + timer + level;
+                timeBonus = 100 + level;
             }
         }
     }

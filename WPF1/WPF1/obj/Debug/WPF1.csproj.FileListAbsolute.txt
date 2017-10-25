@@ -1,0 +1,15 @@
+D:\bounlfi15\git\WPF1\WPF1\bin\Debug\WPF1.exe.config
+D:\bounlfi15\git\WPF1\WPF1\bin\Debug\WPF1.exe
+D:\bounlfi15\git\WPF1\WPF1\bin\Debug\WPF1.pdb
+D:\bounlfi15\git\WPF1\WPF1\obj\Debug\WPF1.csprojResolveAssemblyReference.cache
+D:\bounlfi15\git\WPF1\WPF1\obj\Debug\MainWindow.g.cs
+D:\bounlfi15\git\WPF1\WPF1\obj\Debug\App.g.cs
+D:\bounlfi15\git\WPF1\WPF1\obj\Debug\WPF1_MarkupCompile.cache
+D:\bounlfi15\git\WPF1\WPF1\obj\Debug\WPF1_MarkupCompile.lref
+D:\bounlfi15\git\WPF1\WPF1\obj\Debug\MainWindow.baml
+D:\bounlfi15\git\WPF1\WPF1\obj\Debug\WPF1.g.resources
+D:\bounlfi15\git\WPF1\WPF1\obj\Debug\WPF1.Properties.Resources.resources
+D:\bounlfi15\git\WPF1\WPF1\obj\Debug\WPF1.csproj.GenerateResource.Cache
+D:\bounlfi15\git\WPF1\WPF1\obj\Debug\WPF1.csproj.CoreCompileInputs.cache
+D:\bounlfi15\git\WPF1\WPF1\obj\Debug\WPF1.exe
+D:\bounlfi15\git\WPF1\WPF1\obj\Debug\WPF1.pdb

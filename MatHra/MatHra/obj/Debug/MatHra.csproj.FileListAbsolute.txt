@@ -1,0 +1,17 @@
+D:\bounlfi15\git\MatHra\MatHra\bin\Debug\MatHra.exe.config
+D:\bounlfi15\git\MatHra\MatHra\bin\Debug\MatHra.exe
+D:\bounlfi15\git\MatHra\MatHra\bin\Debug\MatHra.pdb
+D:\bounlfi15\git\MatHra\MatHra\obj\Debug\MatHra.csprojResolveAssemblyReference.cache
+D:\bounlfi15\git\MatHra\MatHra\obj\Debug\MainWindow.g.cs
+D:\bounlfi15\git\MatHra\MatHra\obj\Debug\App.g.cs
+D:\bounlfi15\git\MatHra\MatHra\obj\Debug\MatHra_MarkupCompile.cache
+D:\bounlfi15\git\MatHra\MatHra\obj\Debug\MatHra_MarkupCompile.lref
+D:\bounlfi15\git\MatHra\MatHra\obj\Debug\MainWindow.baml
+D:\bounlfi15\git\MatHra\MatHra\obj\Debug\MatHra.g.resources
+D:\bounlfi15\git\MatHra\MatHra\obj\Debug\MatHra.Properties.Resources.resources
+D:\bounlfi15\git\MatHra\MatHra\obj\Debug\MatHra.csproj.GenerateResource.Cache
+D:\bounlfi15\git\MatHra\MatHra\obj\Debug\MatHra.csproj.CoreCompileInputs.cache
+D:\bounlfi15\git\MatHra\MatHra\obj\Debug\MatHra.exe
+D:\bounlfi15\git\MatHra\MatHra\obj\Debug\MatHra.pdb
+D:\bounlfi15\git\MatHra\MatHra\bin\Debug\FileHelpers.dll
+D:\bounlfi15\git\MatHra\MatHra\bin\Debug\FileHelpers.xml

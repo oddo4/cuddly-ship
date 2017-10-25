@@ -1,0 +1,7 @@
+D:\bounlfi15\git\lode\lode\bin\Debug\lode.exe.config
+D:\bounlfi15\git\lode\lode\bin\Debug\lode.exe
+D:\bounlfi15\git\lode\lode\bin\Debug\lode.pdb
+D:\bounlfi15\git\lode\lode\obj\Debug\lode.csproj.CoreCompileInputs.cache
+D:\bounlfi15\git\lode\lode\obj\Debug\lode.exe
+D:\bounlfi15\git\lode\lode\obj\Debug\lode.pdb
+D:\bounlfi15\git\lode\lode\obj\Debug\lode.csprojResolveAssemblyReference.cache
