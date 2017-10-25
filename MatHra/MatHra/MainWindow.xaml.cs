@@ -36,12 +36,23 @@ namespace MatHra
         int score = 0;
         ObservableCollection<int> loadhighscores = new ObservableCollection<int>();
         List<Score> scoresList = new List<Score>();
+        Score currentScore = new Score();
 
         public MainWindow()
         {
             InitializeComponent();
             labelLevelStatus.Content = "Úroveň " + level;
-            highScoreLoad(loadhighscores, scoresList);
+
+            File fileData = new File();
+            if (fileData.ReadFileData(loadhighscores, scoresList))
+            {
+                listViewHighScores.ItemsSource = loadhighscores;
+            }
+            else
+            {
+                fileData.WriteFileData(scoresList);
+            }
+
             randomExample();
             labelTimer.Content = i.ToString();
 
@@ -131,8 +142,8 @@ namespace MatHra
             {
                 labelAlert.Content = "Správně!";
                 answersCount++;
-                addScore();
-                labelScore.Content = score;
+                currentScore.AddScore();
+                labelScore.Content = currentScore.HighScore;
                 progressStatus();
                 i = 10;
             }
@@ -196,22 +207,6 @@ namespace MatHra
             }
 
             score += 100 + timeBonus;
-        }
-
-        private void highScoreLoad(ObservableCollection<int> loadhighscores, List<Score> highscoresList)
-        {
-            var engine = new FileHelperEngine<Score>();
-
-            var result = engine.ReadFile("MatHraFile.csv");
-
-            foreach (Score highscore in result)
-            {
-                highscoresList.Add(highscore);
-                loadhighscores.Add(highscore.HighScore);
-            }
-
-            listViewHighScores.ItemsSource = loadhighscores;
-
         }
 
         public void highScoreSave()
