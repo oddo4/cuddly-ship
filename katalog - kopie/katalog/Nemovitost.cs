@@ -9,7 +9,7 @@ namespace katalog
     class Nemovitost
     {
         public List<Rodina> seznamRodin = new List<Rodina>();
-        public static int pocetRodin;
+        public int pocetRodin;
         private string typNemovistosti;
         private int plochaNemovistosti;
         

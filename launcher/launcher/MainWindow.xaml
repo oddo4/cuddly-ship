@@ -7,13 +7,23 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        <ListView x:Name="listViewPaths" HorizontalAlignment="Left" Height="150" Margin="204,81,0,0" VerticalAlignment="Top" Width="120">
+        <ListView x:Name="listViewExes" HorizontalAlignment="Left" Height="150" Margin="10,41,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="listViewExes_SelectionChanged">
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>
                 </GridView>
             </ListView.View>
         </ListView>
+        <ListView x:Name="listViewPaths" HorizontalAlignment="Left" Height="150" Margin="135,41,0,0" VerticalAlignment="Top" Width="373" SelectionChanged="listViewPaths_SelectionChanged">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Button x:Name="buttonLaunch" Content="Spustit" HorizontalAlignment="Left" Margin="219,240,0,0" VerticalAlignment="Top" Width="75" IsEnabled="False" Click="buttonLaunch_Click"/>
+        <Label x:Name="labelChooseApp" Content="Vyberte Applikaci" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="120" HorizontalContentAlignment="Center"/>
+        <Label x:Name="labelChooseVer" Content="Vyberte verzi" HorizontalAlignment="Left" Margin="135,10,0,0" VerticalAlignment="Top" Width="373" HorizontalContentAlignment="Center"/>
 
     </Grid>
 </Window>

@@ -9,8 +9,16 @@ namespace launcher
     class AppPath
     {
         public string Name;
-        public string ExePath;
+        public List<string> ExePaths = new List<string>();
 
+        public AppPath(string name)
+        {
+            this.Name = name;
+        }
 
+        public void AddPath(string Path)
+        {
+            this.ExePaths.Add(Path);
+        }
     }
 }

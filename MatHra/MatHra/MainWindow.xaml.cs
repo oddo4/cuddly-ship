@@ -50,7 +50,13 @@ namespace MatHra
             }
             else
             {
+                Score noscore = new Score(0, DateTime.MinValue);
+                scoresList.AddRange(Enumerable.Repeat(noscore, 10));
                 fileData.WriteFileData(scoresList);
+
+                fileData.ReadFileData(loadhighscores, scoresList);
+
+                listViewHighScores.ItemsSource = loadhighscores;
             }
 
             randomExample();
@@ -142,7 +148,7 @@ namespace MatHra
             {
                 labelAlert.Content = "Správně!";
                 answersCount++;
-                currentScore.AddScore();
+                currentScore.AddScore(level,i);
                 labelScore.Content = currentScore.HighScore;
                 progressStatus();
                 i = 10;

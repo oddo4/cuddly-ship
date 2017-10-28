@@ -1,0 +1,7 @@
+C:\Users\Filip\source\repos\cuddly-ship\lode\lode\bin\Debug\lode.exe.config
+C:\Users\Filip\source\repos\cuddly-ship\lode\lode\bin\Debug\lode.exe
+C:\Users\Filip\source\repos\cuddly-ship\lode\lode\bin\Debug\lode.pdb
+C:\Users\Filip\source\repos\cuddly-ship\lode\lode\obj\Debug\lode.csprojResolveAssemblyReference.cache
+C:\Users\Filip\source\repos\cuddly-ship\lode\lode\obj\Debug\lode.csproj.CoreCompileInputs.cache
+C:\Users\Filip\source\repos\cuddly-ship\lode\lode\obj\Debug\lode.exe
+C:\Users\Filip\source\repos\cuddly-ship\lode\lode\obj\Debug\lode.pdb

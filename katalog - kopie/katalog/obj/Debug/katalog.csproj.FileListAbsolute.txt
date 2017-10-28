@@ -1,7 +1,6 @@
-D:\bounlfi15\katalog\katalog\bin\Debug\katalog.exe.config
-D:\bounlfi15\katalog\katalog\bin\Debug\katalog.exe
-D:\bounlfi15\katalog\katalog\bin\Debug\katalog.pdb
-D:\bounlfi15\katalog\katalog\obj\Debug\katalog.csprojResolveAssemblyReference.cache
-D:\bounlfi15\katalog\katalog\obj\Debug\katalog.csproj.CoreCompileInputs.cache
-D:\bounlfi15\katalog\katalog\obj\Debug\katalog.exe
-D:\bounlfi15\katalog\katalog\obj\Debug\katalog.pdb
+C:\Users\Filip\Source\Repos\cuddly-ship\katalog - kopie\katalog\obj\Debug\katalog.csproj.CoreCompileInputs.cache
+C:\Users\Filip\Source\Repos\cuddly-ship\katalog - kopie\katalog\bin\Debug\katalog.exe.config
+C:\Users\Filip\Source\Repos\cuddly-ship\katalog - kopie\katalog\bin\Debug\katalog.exe
+C:\Users\Filip\Source\Repos\cuddly-ship\katalog - kopie\katalog\bin\Debug\katalog.pdb
+C:\Users\Filip\Source\Repos\cuddly-ship\katalog - kopie\katalog\obj\Debug\katalog.exe
+C:\Users\Filip\Source\Repos\cuddly-ship\katalog - kopie\katalog\obj\Debug\katalog.pdb

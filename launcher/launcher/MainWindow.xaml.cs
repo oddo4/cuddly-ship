@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -23,24 +24,21 @@ namespace launcher
     public partial class MainWindow : Window
     {
         List<CorePath> pathsList = new List<CorePath>();
-        ObservableCollection<string> testColl = new ObservableCollection<string>();
-        List<string> exePathsList = new List<string>();
+        ObservableCollection<AppPath> PathsColl = new ObservableCollection<AppPath>();
+        List<string> exeNames = new List<string>();
         string fileName = "";
-        string lastPath = "";
 
         public MainWindow()
         {
             InitializeComponent();
             File fileData = new File();
             DirectoryInfo[] directories;
-            DirectoryInfo[] subdir;
             FileInfo[] files;
 
             fileData.ReadFileData(pathsList);
 
             foreach (CorePath data in pathsList)
             {
-                lastPath = data.PathString;
                 var dirinfo = new DirectoryInfo(@data.PathString);
                 directories = dirinfo.GetDirectories();
                 files = dirinfo.GetFiles();
@@ -56,9 +54,14 @@ namespace launcher
 
                 findingExe(directories);
 
-                listViewPaths.ItemsSource = testColl;
-
             }
+
+            foreach (AppPath data in PathsColl)
+            {
+                exeNames.Add(data.Name);
+            }
+
+            listViewExes.ItemsSource = exeNames;
         }
 
         public void findingExe(DirectoryInfo[] directories)
@@ -66,24 +69,42 @@ namespace launcher
             for (int i = 0; i < directories.Length; i++)
             {
                 var fileinfo = new DirectoryInfo(@directories[i].FullName);
-                FileInfo[] files = fileinfo.GetFiles();
+                FileInfo[] files = fileinfo.GetFiles("*.exe",SearchOption.AllDirectories);
 
-
-                var carMake1 = files
+                if (files.Length > 0)
+                {
+                    var carMake1 = files
                 .Where(item => item.Extension == ".exe")
                 .Select(item => item);
 
-                foreach (var item in carMake1)
-                {
-                    if (fileName == System.IO.Path.GetFileNameWithoutExtension(item.Name))
+                    AppPath appPath = new AppPath(fileName);
+
+                    foreach (var item in carMake1)
                     {
-                        exePathsList.Add(item.FullName);
+                        if (fileName == System.IO.Path.GetFileNameWithoutExtension(item.Name))
+                        {
+                            appPath.AddPath(item.FullName);
+                        }
                     }
+
+                    PathsColl.Add(appPath);
                 }
             }
-
-            
         }
 
+        private void listViewExes_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            listViewPaths.ItemsSource = PathsColl[listViewExes.SelectedIndex].ExePaths;
+        }
+
+        private void listViewPaths_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            buttonLaunch.IsEnabled = true;
+        }
+
+        private void buttonLaunch_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start(@PathsColl[listViewExes.SelectedIndex].ExePaths[listViewPaths.SelectedIndex]);
+        }
     }
 }
