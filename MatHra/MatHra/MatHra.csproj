@@ -59,6 +59,7 @@
     </ApplicationDefinition>
     <Compile Include="Example.cs" />
     <Compile Include="File.cs" />
+    <Compile Include="Life.cs" />
     <Compile Include="Score.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

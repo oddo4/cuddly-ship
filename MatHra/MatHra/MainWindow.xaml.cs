@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using FileHelpers;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace MatHra
 {
@@ -25,39 +26,21 @@ namespace MatHra
     {
         static Random rnd = new Random();
         int level = 1;
-        int mathOperator;
-        int answer;
-        int answersCount;
-        int answerRnd;
-        int number1;
-        int number2;
         int i = 10;
-        int lives = 3;
-        int score = 0;
+        int comboStreak = 0;
+        int multiplier = 1;
         ObservableCollection<int> loadhighscores = new ObservableCollection<int>();
         List<Score> scoresList = new List<Score>();
         Score currentScore = new Score();
+        File fileData = new File();
+        Example example = new Example();
+        Life lives = new Life();
 
         public MainWindow()
         {
             InitializeComponent();
-            labelLevelStatus.Content = "Úroveň " + level;
 
-            File fileData = new File();
-            if (fileData.ReadFileData(loadhighscores, scoresList))
-            {
-                listViewHighScores.ItemsSource = loadhighscores;
-            }
-            else
-            {
-                Score noscore = new Score(0, DateTime.MinValue);
-                scoresList.AddRange(Enumerable.Repeat(noscore, 10));
-                fileData.WriteFileData(scoresList);
-
-                fileData.ReadFileData(loadhighscores, scoresList);
-
-                listViewHighScores.ItemsSource = loadhighscores;
-            }
+            readFile();
 
             randomExample();
             labelTimer.Content = i.ToString();
@@ -82,44 +65,48 @@ namespace MatHra
             labelTimer.Content = i.ToString();
             randomExample();
         }
+        
+        private void readFile()
+        {
+            if (fileData.ReadFileData(loadhighscores, scoresList))
+            {
+                listViewHighScores.ItemsSource = loadhighscores;
+            }
+            else
+            {
+                Score noscore = new Score(0, DateTime.MinValue);
+                scoresList.AddRange(Enumerable.Repeat(noscore, 10));
+                fileData.WriteFileData(scoresList);
+
+                fileData.ReadFileData(loadhighscores, scoresList);
+
+                listViewHighScores.ItemsSource = loadhighscores;
+            }
+        }
 
         private void randomExample()
         {
-            mathOperator = rnd.Next(1, 5);
-            number1 = rnd.Next(1, 11)*level;
-            number2 = rnd.Next(1, 11)*level;
-            answerRnd = rnd.Next(0, 2);
+            int mathOperator = rnd.Next(1, 4);
+            int number1 = rnd.Next(1, 11)*level;
+            int number2 = rnd.Next(1, 11)*level;
+            int answerRnd = rnd.Next(0, 10);
 
+            example = new Example(number1, number2, mathOperator, example.ExampleCount);
+            example.CreateExample();
 
-            switch (mathOperator)
-            {
-                case 1: // +
-                    labelMathExample.Content = number1 + " + " + number2;
-                    answer = number1 + number2;
-                    break;
-                case 2: // -
-                    labelMathExample.Content = number1 + " - " + number2;
-                    answer = number1 - number2;
-                    break;
-                case 3: // *
-                    labelMathExample.Content = number1 + " * " + number2;
-                    answer = number1 * number2;
-                    break;
-                /*case 4: // /
-                    labelMathExample.Content = number1 + " / " + number2;
-                    answer = number1 / number2;
-                    break;*/
-            }
+            labelMathExampleCount.Content = "Příklad č. " + example.ExampleCount;
+            labelAnswersCount.Content = currentScore.AnswersCount;
+            labelMathExample.Content = example.ExampleString;
 
-            switch (answerRnd)
+            switch (answerRnd % 2)
             {
                 case 0:
-                    buttonAnswer1.Content = answer;
-                    buttonAnswer2.Content = answer + rnd.Next(1, 10);
+                    buttonAnswer1.Content = example.Answer;
+                    buttonAnswer2.Content = example.Answer + rnd.Next(1, 10);
                     break;
                 case 1:
-                    buttonAnswer1.Content = answer + rnd.Next(1, 10);
-                    buttonAnswer2.Content = answer;
+                    buttonAnswer1.Content = example.Answer + rnd.Next(1, 10);
+                    buttonAnswer2.Content = example.Answer;
                     break;
             }
 
@@ -127,16 +114,15 @@ namespace MatHra
 
         private void progressStatus()
         {
-            progressLevelStatus.Value += 10 / level;
+            progressLevelStatus.Value += 20 / level;
 
             if ((int) progressLevelStatus.Value == 100)
             {
                 progressLevelStatus.Value = 0;
                 level++;
-                if (lives < 3)
+                if (lives.Lives < 3)
                 {
-                    lives++;
-                    labelLives.Content = new string('♥', lives);
+                    lives.AddLife(labelLives);
                 }
                 labelLevelStatus.Content = "Úroveň " + level;      
             }
@@ -144,25 +130,32 @@ namespace MatHra
 
         private void checkAnswer(int buttonAnswer)
         {
-            if (buttonAnswer == answer)
+            if (buttonAnswer == example.Answer)
             {
                 labelAlert.Content = "Správně!";
-                answersCount++;
-                currentScore.AddScore(level,i);
-                labelScore.Content = currentScore.HighScore;
+                currentScore.AnswersCount++;
+                comboStreak = currentScore.AddScore(level, i, comboStreak, multiplier);
                 progressStatus();
-                i = 10;
+                labelScore.Content = currentScore.HighScore;
+                resetTimer();
             }
             else
             {
                 labelAlert.Content = "Špatně!";
-                loseLife();
+                comboStreak = 0;
+                if (lives.LoseLife(labelLives))
+                {
+                    i = 0;
+                    gameOver();
+                }
             }
+
+            example.ExampleCount++;
         }
 
         private void timer(DispatcherTimer t, int c)
         {
-            if (lives == 0)
+            if (lives.Lives == 0)
             {
                 t.Stop();
             }
@@ -174,79 +167,52 @@ namespace MatHra
                 if (i == 0)
                 {
                     labelAlert.Content = "Time out!";
-                    i = 10;
-                    loseLife();
+                    comboStreak = 0;
+                    resetTimer();
+                    if (lives.LoseLife(labelLives))
+                    {
+                        i = 0;
+                        gameOver();
+                    }
                     labelTimer.Content = i.ToString();
                     randomExample();
                 }
             }
         }
 
-        public void loseLife()
+        private void resetTimer()
         {
-            lives--;
-            labelLives.Content = new string('♥', lives);
-            if (lives == 0)
+            if (comboStreak > 30)
             {
-                i = 0;
-                gameOver();
+                i = 5;
+                multiplier = 4;
+            }
+            else if (comboStreak > 5)
+            {
+                i = 5;
+                multiplier = 2;
             }
             else
             {
                 i = 10;
+                multiplier = 1;
             }
-        }
-
-        private void addLife()
-        {
-            lives++;
-            labelLives.Content = new string('♥', lives);
-        }
-
-        private void addScore()
-        {
-            int timeBonus = 50 - i + level;
-
-            if (i > 5)
-            {
-                timeBonus = 100 - i + level;
-            }
-
-            score += 100 + timeBonus;
-        }
-
-        public void highScoreSave()
-        {
-            var engine = new FileHelperEngine<Score>();
-            Score recentScore = new Score();
-
-            recentScore.HighScore = score;
-            recentScore.Date = DateTime.Now;
-
-            List<Score> result = new List<Score>();
-            bool addedScore = false;
-            int j = 0;
-
-            for (int i = 0; i < 10; i++)
-            {
-                if (scoresList[i].HighScore < recentScore.HighScore && addedScore == false)
-                {
-                    result.Add(recentScore);
-                    addedScore = true;
-                    j++;
-                }
-                else
-                {
-                    result.Add(scoresList[i - j]);
-                }
-            }
-
-            engine.WriteFile("MatHraFile.csv", result);
         }
 
         public void gameOver()
         {
-            highScoreSave();
+            buttonAnswer1.IsEnabled = false;
+            buttonAnswer2.IsEnabled = false;
+
+            currentScore.Date = DateTime.Now;
+            
+            List<Score> updatedScoreList = currentScore.HighScoreSave(currentScore, scoresList);
+
+            listViewHighScores.ItemsSource = null;
+
+            fileData.WriteFileData(updatedScoreList);
+
+            readFile();
         }
     }
 }
