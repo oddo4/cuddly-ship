@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace launcher
 {
+
     class AppPath
     {
         public string Name;
-        public List<string> ExePaths = new List<string>();
+        public List<string> ExePaths = new List<string>(); 
+        public AppInfo Info = new AppInfo();
 
         public AppPath(string name)
         {

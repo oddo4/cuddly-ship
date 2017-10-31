@@ -8,7 +8,7 @@ using System.Collections.ObjectModel;
 
 namespace MatHra
 {
-    class File
+    class FileHelper
     {
         private string fileName = "MatHraFile.csv";
 
@@ -18,12 +18,12 @@ namespace MatHra
             set { fileName = value; }
         }
 
-        public File()
+        public FileHelper()
         {
 
         }
 
-        public File(string FileName)
+        public FileHelper(string FileName)
         {
             this.fileName = FileName;
         }

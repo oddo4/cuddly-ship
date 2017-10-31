@@ -8,22 +8,16 @@ using System.Collections.ObjectModel;
 
 namespace launcher
 {
-    class File
+    class FileHelper
     {
-        private string fileName = "LauncherFile.csv";
+        public string fileName = "LauncherFile.csv";
 
-        public string FileName
-        {
-            get { return fileName; }
-            set { fileName = value; }
-        }
-
-        public File()
+        public FileHelper()
         {
 
         }
 
-        public File(string FileName)
+        public FileHelper(string FileName)
         {
             this.fileName = FileName;
         }
@@ -55,13 +49,40 @@ namespace launcher
             return false;
         }
 
-        public bool WriteFileData()
+        public bool ReadAppInfo(List<AppInfo> appInfoList)
         {
-            var engine = new FileHelperEngine<CorePath>();
+            var engine = new FileHelperEngine<AppInfo>();
 
             try
             {
+                var result = engine.ReadFile(fileName);
 
+                if (result.Any())
+                {
+                    foreach (AppInfo data in result)
+                    {
+                        appInfoList.Add(data);
+                    }
+
+                    return true;
+                }
+            }
+            catch
+            {
+
+            }
+
+            return false;
+        }
+
+        public bool WriteAppInfo(List<AppInfo> result)
+        {
+            var engine = new FileHelperEngine<AppInfo>();
+
+            try
+            {
+                engine.WriteFile(fileName, result);
+                return true;
             }
             catch
             {

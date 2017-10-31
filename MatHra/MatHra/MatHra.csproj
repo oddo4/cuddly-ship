@@ -58,7 +58,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Example.cs" />
-    <Compile Include="File.cs" />
+    <Compile Include="FileHelper.cs" />
     <Compile Include="Life.cs" />
     <Compile Include="Score.cs" />
     <Page Include="MainWindow.xaml">

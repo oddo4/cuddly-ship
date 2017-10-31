@@ -32,7 +32,7 @@ namespace MatHra
         ObservableCollection<int> loadhighscores = new ObservableCollection<int>();
         List<Score> scoresList = new List<Score>();
         Score currentScore = new Score();
-        File fileData = new File();
+        FileHelper fileData = new FileHelper();
         Example example = new Example();
         Life lives = new Life();
 
