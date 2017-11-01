@@ -23,8 +23,8 @@ namespace launcher
     /// </summary>
     public partial class MainWindow : Window
     {
-        List<CorePath> pathsList = new List<CorePath>();
-        ObservableCollection<AppPath> PathsColl = new ObservableCollection<AppPath>();
+        List<DirPath> pathsList = new List<DirPath>();
+        //ObservableCollection<AppPath> PathsColl = new ObservableCollection<AppPath>();
         List<string> exeNames = new List<string>();
         List<AppInfo> appInfoList = new List<AppInfo>();
         FileHelper appInfoFile = new FileHelper();
@@ -43,28 +43,24 @@ namespace launcher
             {
                 var dirinfo = new DirectoryInfo(@pathsList[i].AppPathString);
                 directories = dirinfo.GetDirectories();
-                files = dirinfo.GetFiles("*.sln",SearchOption.TopDirectoryOnly);
+                files = dirinfo.GetFiles("*.sln",SearchOption.AllDirectories);
 
                 foreach (var item in files)
                 {
                     exeName = System.IO.Path.GetFileNameWithoutExtension(item.Name); 
 
-                    appInfoFile.fileName = @item.DirectoryName + "\\AppInfoFile.csv";
+                    appInfoFile.fileName = @pathsList[i].AppPathString + "\\AppInfoFile.csv";
+
                 }
 
-                findingExe(directories);
+                findingExe(directories, i);
 
-            }
-
-            foreach (AppPath data in PathsColl)
-            {
-                exeNames.Add(data.Name);
             }
 
             listViewExes.ItemsSource = exeNames;
         }
 
-        public void findingExe(DirectoryInfo[] directories)
+        public void findingExe(DirectoryInfo[] directories, int j)
         {
             for (int i = 0; i < directories.Length; i++)
             {
@@ -80,24 +76,21 @@ namespace launcher
                     {
                         if (exeName == System.IO.Path.GetFileNameWithoutExtension(item.Name))
                         {
-                            appPath.AddPath(item.FullName);
+                            pathsList[j].AddPath(item.FullName);
                         }
                     }
 
-                    PathsColl.Add(appPath);
+                    pathsList[j].AddAppList(appPath);
+
+                    exeNames.Add(appPath.Name);
                 }
             }
         }
 
         private void listViewExes_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            listViewPaths.ItemsSource = PathsColl[listViewExes.SelectedIndex].ExePaths;
-
-            if (appInfoFile.ReadAppInfo(appInfoList) == false)
-            {
-                AppInfo newInfo = new AppInfo();
-                appInfoList.AddRange(Enumerable.Repeat(newInfo, listViewExes.SelectedIndex));
-            }
+            listViewPaths.ItemsSource = pathsList[listViewExes.SelectedIndex].ExePaths;
+            labelChooseApp.Content = listViewExes.SelectedIndex.ToString();
 
             buttonLaunch.IsEnabled = false;
         }
@@ -105,14 +98,20 @@ namespace launcher
         private void listViewPaths_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             buttonLaunch.IsEnabled = true;
+            labelAppInfo.Content = listViewPaths.SelectedIndex.ToString();
 
-            PathsColl[listViewExes.SelectedIndex].Info.DisplayAppInfo(tBoxAppName, tBoxAppVer, tBoxAppAuthor);
-
+            if (appInfoFile.ReadAppInfo(appInfoList))
+            {
+                tBoxAppName.Text = appInfoList[listViewPaths.SelectedIndex].AppName;
+                tBoxAppVer.Text = appInfoList[listViewPaths.SelectedIndex].AppVer;
+                tBoxAppAuthor.Text = appInfoList[listViewPaths.SelectedIndex].AppAuthor;
+            }
         }
+            
 
         private void buttonLaunch_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start(@PathsColl[listViewExes.SelectedIndex].ExePaths[listViewPaths.SelectedIndex]);
+            Process.Start(@pathsList[listViewExes.SelectedIndex].ExePaths[listViewPaths.SelectedIndex]);
         }
 
         private void buttonEditAppInfo_Click(object sender, RoutedEventArgs e)
@@ -135,12 +134,24 @@ namespace launcher
             tBoxAppVer.IsEnabled = false;
             tBoxAppAuthor.IsEnabled = false;
 
-            PathsColl[listViewExes.SelectedIndex].Info = new AppInfo(tBoxAppName.Text, tBoxAppVer.Text, tBoxAppAuthor.Text);
-
-            foreach (AppPath data in PathsColl)
+            if (appInfoFile.ReadAppInfo(appInfoList) == false)
             {
-                appInfoList.Add(data.Info);
+                for (int i = 0; i < pathsList[listViewExes.SelectedIndex].AppList.Count; i++)
+                {
+                    appInfoList.Add(pathsList[listViewPaths.SelectedIndex].AppList[i].Info);
+                } 
             }
+            else
+            {
+                pathsList[listViewPaths.SelectedIndex].AppList[listViewExes.SelectedIndex].Info = new AppInfo(tBoxAppName.Text, tBoxAppVer.Text, tBoxAppAuthor.Text);
+
+                for (int i = 0; i < pathsList[listViewExes.SelectedIndex].AppList.Count + 1; i++)
+                {
+                    appInfoList[i] = pathsList[listViewExes.SelectedIndex].AppList[i].Info;
+                }
+            }
+
+            appInfoFile.fileName = pathsList[listViewExes.SelectedIndex].AppPathString + "\\AppFileInfo.csv";
 
             appInfoFile.WriteAppInfo(appInfoList);
 

@@ -22,9 +22,9 @@ namespace launcher
             this.fileName = FileName;
         }
 
-        public bool ReadFileData(List<CorePath> pathsList)
+        public bool ReadFileData(List<DirPath> pathsList)
         {
-            var engine = new FileHelperEngine<CorePath>();
+            var engine = new FileHelperEngine<DirPath>();
 
             try
             {
@@ -32,7 +32,7 @@ namespace launcher
 
                 if (result.Any())
                 {
-                    foreach (CorePath data in result)
+                    foreach (DirPath data in result)
                     {
                         pathsList.Add(data);
                     }

@@ -15,7 +15,6 @@ namespace launcher
         public string AppName = "N/A";
         public string AppVer = "N/A";
         public string AppAuthor = "N/A";
-        public string InfoPath;
 
         public AppInfo()
         {
