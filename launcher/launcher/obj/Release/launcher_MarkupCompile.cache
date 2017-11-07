@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\Filip\Desktop\School\VAH\git\launcher\launcher\obj\Debug\
+C:\Users\Filip\Desktop\School\VAH\git\launcher\launcher\obj\Release\
 launcher
 none
 false
-DEBUG;TRACE
+TRACE
 C:\Users\Filip\Desktop\School\VAH\git\launcher\launcher\App.xaml
 11151548125
 
-10-2049688431
+10810209859
 14-564314897
 MainWindow.xaml;
 
-False
+True
 

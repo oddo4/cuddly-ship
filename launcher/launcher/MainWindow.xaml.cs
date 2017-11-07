@@ -23,138 +23,182 @@ namespace launcher
     /// </summary>
     public partial class MainWindow : Window
     {
-        List<DirPath> pathsList = new List<DirPath>();
+        List<DirPath> pathsListData = new List<DirPath>();
+        DirPath allAppPaths = new DirPath();
         //ObservableCollection<AppPath> PathsColl = new ObservableCollection<AppPath>();
         List<string> exeNames = new List<string>();
         List<AppInfo> appInfoList = new List<AppInfo>();
         FileHelper appInfoFile = new FileHelper();
-        string exeName = "";
 
         public MainWindow()
         {
             InitializeComponent();
             FileHelper fileData = new FileHelper();
+            FileSearch fileSearch = new FileSearch();
             DirectoryInfo[] directories;
-            FileInfo[] files;
 
-            fileData.ReadFileData(pathsList);
+            fileData.ReadFileData(pathsListData);
 
-            for (int i = 0; i < pathsList.Count; i++)
+            for (int i = 0; i < pathsListData.Count; i++)
             {
-                var dirinfo = new DirectoryInfo(@pathsList[i].AppPathString);
+                var dirinfo = new DirectoryInfo(@pathsListData[i].DirPathString);
                 directories = dirinfo.GetDirectories();
-                files = dirinfo.GetFiles("*.sln",SearchOption.AllDirectories);
 
-                foreach (var item in files)
+                foreach (var dir in directories)
                 {
-                    exeName = System.IO.Path.GetFileNameWithoutExtension(item.Name); 
-
-                    appInfoFile.fileName = @pathsList[i].AppPathString + "\\AppInfoFile.csv";
-
+                    findingExe(dir.FullName, 0, "*.sln", SearchOption.TopDirectoryOnly);
                 }
-
-                findingExe(directories, i);
 
             }
 
-            listViewExes.ItemsSource = exeNames;
-        }
-
-        public void findingExe(DirectoryInfo[] directories, int j)
-        {
-            for (int i = 0; i < directories.Length; i++)
+            for (int j = 0; j < allAppPaths.AppList.Count; j++)
             {
-                var fileinfo = new DirectoryInfo(@directories[i].FullName);
-                FileInfo[] files = fileinfo.GetFiles("*.exe",SearchOption.AllDirectories);
+                findingExe(allAppPaths.AppList[j].AppDirPath, j, "*.exe", SearchOption.AllDirectories);
+            }
 
-                if (files.Length > 0)
+            listViewApps.ItemsSource = exeNames;
+        }
+
+        public void findingExe(string SearchPath, int j, string pattern, SearchOption searchOption)
+        {
+            var fileinfo = new DirectoryInfo(@SearchPath);
+            FileInfo[] files = fileinfo.GetFiles(pattern, searchOption);
+
+            if (files.Length > 0)
+            {
+                for (int i = 0; i < files.Length; i++)
                 {
-
-                    AppPath appPath = new AppPath(exeName);
-
-                    foreach (var item in files)
+                    switch (pattern)
                     {
-                        if (exeName == System.IO.Path.GetFileNameWithoutExtension(item.Name))
-                        {
-                            pathsList[j].AddPath(item.FullName);
-                        }
+                        case "*.sln":
+                            AppPath appPath = new AppPath(System.IO.Path.GetFileNameWithoutExtension(files[i].Name), SearchPath);
+                            appPath.AddSlnPath(files[i].FullName);
+
+                            allAppPaths.AddAppList(appPath);
+
+                            exeNames.Add(appPath.Name);
+
+                            break;
+                        case "*.exe":
+                            if (allAppPaths.AppList[j].Name == System.IO.Path.GetFileNameWithoutExtension(files[i].Name))
+                            {
+                                allAppPaths.AppList[j].AddExePath(files[i].FullName);
+                            }
+
+                            break;
                     }
-
-                    pathsList[j].AddAppList(appPath);
-
-                    exeNames.Add(appPath.Name);
                 }
             }
         }
 
-        private void listViewExes_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void listViewApps_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            listViewPaths.ItemsSource = pathsList[listViewExes.SelectedIndex].ExePaths;
-            labelChooseApp.Content = listViewExes.SelectedIndex.ToString();
+            listViewExePaths.ItemsSource = allAppPaths.AppList[listViewApps.SelectedIndex].ExePaths;
+            listViewExePaths.SelectedIndex = -1;
+            //labelChooseApp.Content = listViewExePaths.SelectedIndex.ToString();
 
             buttonLaunch.IsEnabled = false;
         }
 
-        private void listViewPaths_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void listViewExePaths_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             buttonLaunch.IsEnabled = true;
-            labelAppInfo.Content = listViewPaths.SelectedIndex.ToString();
 
-            if (appInfoFile.ReadAppInfo(appInfoList))
+            /*if (appInfoFile.ReadAppInfo(appInfoList))
             {
-                tBoxAppName.Text = appInfoList[listViewPaths.SelectedIndex].AppName;
-                tBoxAppVer.Text = appInfoList[listViewPaths.SelectedIndex].AppVer;
-                tBoxAppAuthor.Text = appInfoList[listViewPaths.SelectedIndex].AppAuthor;
-            }
+                tBoxAppName.Text = appInfoList[listViewExePaths.SelectedIndex].AppName;
+                tBoxAppVer.Text = appInfoList[listViewExePaths.SelectedIndex].AppVer;
+                tBoxAppAuthor.Text = appInfoList[listViewExePaths.SelectedIndex].AppAuthor;
+            }*/
         }
             
 
         private void buttonLaunch_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start(@pathsList[listViewExes.SelectedIndex].ExePaths[listViewPaths.SelectedIndex]);
+            Process.Start(@allAppPaths.AppList[listViewApps.SelectedIndex].ExePaths[listViewExePaths.SelectedIndex]);
+        }
+
+        private void buttonShowAppInfo_Click(object sender, RoutedEventArgs e)
+        {
+            appInfoFile.fileName = allAppPaths.AppList[listViewApps.SelectedIndex].AppDirPath + "\\AppFileInfo.csv";
+
+            if (appInfoFile.ReadAppInfo(appInfoList))
+            {
+                appInfoList[listViewExePaths.SelectedIndex].DisplayAppInfo(tBoxAppName, tBoxAppVer, tBoxAppAuthor);
+            }
+            else
+            {
+                
+            }
         }
 
         private void buttonEditAppInfo_Click(object sender, RoutedEventArgs e)
         {
-            buttonEditAppInfo.Visibility = Visibility.Hidden;
-            buttonSaveAppInfo.Visibility = Visibility.Visible;
-
-            tBoxAppName.IsEnabled = true;
-            tBoxAppVer.IsEnabled = true;
-            tBoxAppAuthor.IsEnabled = true;
+            EditAppInfo(true);
 
         }
 
         private void buttonSaveAppInfo_Click(object sender, RoutedEventArgs e)
         {
-            buttonSaveAppInfo.Visibility = Visibility.Hidden;
-            buttonEditAppInfo.Visibility = Visibility.Visible;
+            EditAppInfo(false);
 
-            tBoxAppName.IsEnabled = false;
-            tBoxAppVer.IsEnabled = false;
-            tBoxAppAuthor.IsEnabled = false;
+            appInfoFile.fileName = allAppPaths.AppList[listViewApps.SelectedIndex].AppDirPath + "\\AppFileInfo.csv";
 
-            if (appInfoFile.ReadAppInfo(appInfoList) == false)
+            AppInfo exeInfo = new AppInfo(tBoxAppName.Text, tBoxAppVer.Text, tBoxAppAuthor.Text);
+
+            if (appInfoFile.ReadAppInfo(appInfoList))
             {
-                for (int i = 0; i < pathsList[listViewExes.SelectedIndex].AppList.Count; i++)
+                for (int i = 0; i < allAppPaths.AppList[listViewApps.SelectedIndex].ExeInfo.Count; i++)
                 {
-                    appInfoList.Add(pathsList[listViewPaths.SelectedIndex].AppList[i].Info);
-                } 
+                    if (i == listViewExePaths.SelectedIndex)
+                    {
+                        appInfoList.Add(exeInfo);
+                    }
+                    else
+                    {
+                        appInfoList.Add(allAppPaths.AppList[listViewApps.SelectedIndex].ExeInfo[i]);
+                    }
+                }
             }
             else
             {
-                pathsList[listViewPaths.SelectedIndex].AppList[listViewExes.SelectedIndex].Info = new AppInfo(tBoxAppName.Text, tBoxAppVer.Text, tBoxAppAuthor.Text);
-
-                for (int i = 0; i < pathsList[listViewExes.SelectedIndex].AppList.Count + 1; i++)
+                for (int i = 0; i < allAppPaths.AppList[listViewApps.SelectedIndex].ExeInfo.Count; i++)
                 {
-                    appInfoList[i] = pathsList[listViewExes.SelectedIndex].AppList[i].Info;
+                    if (i == listViewExePaths.SelectedIndex)
+                    {
+                        appInfoList.Add(exeInfo);
+                    }
+                    else
+                    {
+                        appInfoList.Add(allAppPaths.AppList[listViewApps.SelectedIndex].ExeInfo[i]);
+                    }
                 }
             }
 
-            appInfoFile.fileName = pathsList[listViewExes.SelectedIndex].AppPathString + "\\AppFileInfo.csv";
-
             appInfoFile.WriteAppInfo(appInfoList);
 
+        }
+
+        private void EditAppInfo(bool enable)
+        {
+            if (enable)
+            {
+                buttonSaveAppInfo.Visibility = Visibility.Visible;
+                buttonEditAppInfo.Visibility = Visibility.Hidden;
+
+                tBoxAppName.IsEnabled = true;
+                tBoxAppVer.IsEnabled = true;
+                tBoxAppAuthor.IsEnabled = true;
+            }
+            else
+            {
+                buttonSaveAppInfo.Visibility = Visibility.Hidden;
+                buttonEditAppInfo.Visibility = Visibility.Visible;
+
+                tBoxAppName.IsEnabled = false;
+                tBoxAppVer.IsEnabled = false;
+                tBoxAppAuthor.IsEnabled = false;
+            }
         }
     }
 }

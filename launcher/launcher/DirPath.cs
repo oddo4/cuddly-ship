@@ -11,22 +11,14 @@ namespace launcher
 
     class DirPath
     {
-        public string AppPathString;
-
+        public string DirPathString;
         [FieldHidden]
         public List<AppPath> AppList = new List<AppPath>();
-        [FieldHidden]
-        public List<string> ExePaths = new List<string>();
-
 
         public void AddAppList(AppPath appPath)
         {
             AppList.Add(appPath);
         }
 
-        public void AddPath(string Path)
-        {
-            ExePaths.Add(Path);
-        }
     }
 }
