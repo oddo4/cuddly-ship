@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-D:\bounlfi15\git3\launcher\launcher\obj\Debug\
+C:\Users\Filip\Desktop\School\VAH\git\launcher\launcher\obj\Debug\
 launcher
 none
 false
 DEBUG;TRACE
-D:\bounlfi15\git3\launcher\launcher\App.xaml
-3331274193
+C:\Users\Filip\Desktop\School\VAH\git\launcher\launcher\App.xaml
+7-1078924787
 
-12-485851791
-16-149339444
-MainWindow.xaml;Pages\EditPage.xaml;Pages\MainPage.xaml;
+16-1679508948
+17-1985712050
+AlertDialog.xaml;DeleteWindow.xaml;MainWindow.xaml;Pages\AppPage.xaml;Pages\MainPage.xaml;Pages\PathsPage.xaml;Pages\ProjectPage.xaml;
 
 False
 

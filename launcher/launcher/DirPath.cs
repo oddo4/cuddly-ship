@@ -9,11 +9,21 @@ namespace launcher
 {
     [DelimitedRecord(",")]
 
-    class DirPath
+    public class DirPath
     {
         public string DirPathString;
         [FieldHidden]
         public List<AppPath> AppList = new List<AppPath>();
+
+        public DirPath()
+        {
+
+        }
+
+        public DirPath(string dirPathString)
+        {
+            this.DirPathString = dirPathString;
+        }
 
         public void AddAppList(AppPath appPath)
         {

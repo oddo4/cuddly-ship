@@ -48,6 +48,22 @@ namespace launcher
 
             return false;
         }
+        public bool WriteFileData(List<DirPath> result)
+        {
+            var engine = new FileHelperEngine<DirPath>();
+
+            try
+            {
+                engine.WriteFile(fileName, result);
+                return true;
+            }
+            catch
+            {
+
+            }
+
+            return false;
+        }
 
         public bool ReadAppInfo(List<AppInfo> appInfoList)
         {

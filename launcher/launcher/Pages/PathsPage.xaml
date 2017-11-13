@@ -1,0 +1,26 @@
+﻿<Page x:Class="launcher.Pages.PathsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:launcher.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="290" d:DesignWidth="505"
+      Title="PathsPage">
+
+    <Grid>
+        <Button x:Name="buttonReturn" Content="Zpět" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Click="buttonReturn_Click"/>
+        <Label x:Name="labelPathsSettings" Content="Nastavení cest" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" Width="197" HorizontalContentAlignment="Center" Margin="150,44,157.8,214.6" Height="31"/>
+        <ListView x:Name="listViewDirPaths" HorizontalAlignment="Center" Height="128" VerticalAlignment="Center" Width="485" Margin="10,80,9.8,81.6">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Cesta" Width="Auto"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Button x:Name="buttonAddPath" Content="Přidat cestu" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="90" Click="buttonAddPath_Click" Margin="100,0,0,30"/>
+        <Button x:Name="buttonDeletePath" Content="Odebrat cestu" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="90" Click="buttonDeletePath_Click" Margin="0,0,0,30"/>
+        <Button x:Name="buttonSavePaths" Content="Uložit cesty" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="90" Click="buttonSavePaths_Click" Margin="0,0,100,30"/>
+
+    </Grid>
+</Page>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MahApps.Metro.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,24 +11,24 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace launcher.Pages
+namespace launcher
 {
     /// <summary>
-    /// Interakční logika pro EditPage.xaml
+    /// Interakční logika pro AlertDialog.xaml
     /// </summary>
-    public partial class EditPage : Page
+    public partial class AlertDialog : MetroWindow
     {
-        public EditPage()
+        public AlertDialog(string message)
         {
             InitializeComponent();
+            labelAlertDialog.Content = message;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void buttonAlertAccept_Click(object sender, RoutedEventArgs e)
         {
-            this.NavigationService.GoBack();
+            this.Close();
         }
     }
 }

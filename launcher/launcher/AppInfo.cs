@@ -27,13 +27,5 @@ namespace launcher
             this.AppVer = appVer;
             this.AppAuthor = appAuthor;
         }
-
-
-        public void DisplayAppInfo(TextBox tBoxAppName, TextBox tBoxAppVer, TextBox tBoxAppAuthor)
-        {
-            tBoxAppName.Text = AppName;
-            tBoxAppVer.Text = AppVer;
-            tBoxAppAuthor.Text = AppAuthor;
-        }
     }
 }

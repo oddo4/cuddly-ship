@@ -22,14 +22,9 @@ namespace launcher.Pages
     /// </summary>
     public partial class MainPage : Page
     {
-        EditPage editPage = new EditPage();
-
         List<DirPath> pathsListData = new List<DirPath>();
         DirPath allAppPaths = new DirPath();
-        //ObservableCollection<AppPath> PathsColl = new ObservableCollection<AppPath>();
         List<string> exeNames = new List<string>();
-        List<AppInfo> appInfoList = new List<AppInfo>();
-        FileHelper appInfoFile = new FileHelper();
 
         public MainPage()
         {
@@ -95,108 +90,54 @@ namespace launcher.Pages
         private void listViewApps_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             listViewExePaths.ItemsSource = allAppPaths.AppList[listViewApps.SelectedIndex].ExePaths;
-            //labelChooseApp.Content = listViewExePaths.SelectedIndex.ToString();
+            buttonAboutProject.IsEnabled = true;
 
-            buttonLaunch.IsEnabled = false;
+            ButtonAppEnabled(false);
         }
 
         private void listViewExePaths_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            buttonLaunch.IsEnabled = true;
-
-            /*if (appInfoFile.ReadAppInfo(appInfoList))
-            {
-                tBoxAppName.Text = appInfoList[listViewExePaths.SelectedIndex].AppName;
-                tBoxAppVer.Text = appInfoList[listViewExePaths.SelectedIndex].AppVer;
-                tBoxAppAuthor.Text = appInfoList[listViewExePaths.SelectedIndex].AppAuthor;
-            }*/
+            ButtonAppEnabled(true);
         }
 
+        private void buttonEditPaths_Click(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.Navigate(new PathsPage(pathsListData));
+        }
+
+        private void buttonAboutProject_Click(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.Navigate(new ProjectPage(allAppPaths.AppList[listViewApps.SelectedIndex]));
+        }
+
+        private void buttonAboutApp_Click(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.Navigate(new AppPage(allAppPaths.AppList[listViewExePaths.SelectedIndex].ExePaths.Count, listViewExePaths.SelectedIndex, allAppPaths.AppList[listViewApps.SelectedIndex].AppDirPath, allAppPaths.AppList[listViewApps.SelectedIndex].Name));
+        }
 
         private void buttonLaunch_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start(@allAppPaths.AppList[listViewApps.SelectedIndex].ExePaths[listViewExePaths.SelectedIndex]);
+            ProgramStart(allAppPaths.AppList[listViewApps.SelectedIndex].ExePaths[listViewExePaths.SelectedIndex]);
         }
 
-        private void buttonShowAppInfo_Click(object sender, RoutedEventArgs e)
+        private void ProgramStart(string programPath)
         {
-            appInfoFile.fileName = allAppPaths.AppList[listViewApps.SelectedIndex].AppDirPath + "\\AppFileInfo.csv";
-
-            if (appInfoFile.ReadAppInfo(appInfoList))
-            {
-                //appInfoList[listViewExePaths.SelectedIndex].DisplayAppInfo(labelAppName, labelAppVer, labelAppAuthor);
-            }
-            else
-            {
-
-            }
+            Process.Start(@programPath);
         }
 
-        
-
-        private void buttonEditAppInfo_Click(object sender, RoutedEventArgs e)
-        {
-            //EditAppInfo(true);
-
-            this.NavigationService.Navigate(editPage);
-
-        }
-
-        private void buttonSaveAppInfo_Click(object sender, RoutedEventArgs e)
-        {
-            //EditAppInfo(false);
-
-            appInfoFile.fileName = allAppPaths.AppList[listViewApps.SelectedIndex].AppDirPath + "\\AppFileInfo.csv";
-
-            /*AppInfo exeInfo = new AppInfo(tBoxAppName.Text, tBoxAppVer.Text, tBoxAppAuthor.Text);
-
-            if (appInfoFile.ReadAppInfo(appInfoList))
-            {
-                for (int i = 0; i < allAppPaths.AppList[listViewApps.SelectedIndex].ExeInfo.Count; i++)
-                {
-                    if (i == listViewExePaths.SelectedIndex)
-                    {
-                        appInfoList.Add(exeInfo);
-                    }
-                    else
-                    {
-                        appInfoList.Add(allAppPaths.AppList[listViewApps.SelectedIndex].ExeInfo[i]);
-                    }
-                }
-            }
-            else
-            {
-                for (int i = 0; i < allAppPaths.AppList[listViewApps.SelectedIndex].ExeInfo.Count; i++)
-                {
-                    if (i == listViewExePaths.SelectedIndex)
-                    {
-                        appInfoList.Add(exeInfo);
-                    }
-                    else
-                    {
-                        appInfoList.Add(allAppPaths.AppList[listViewApps.SelectedIndex].ExeInfo[i]);
-                    }
-                }
-            }*/
-
-            appInfoFile.WriteAppInfo(appInfoList);
-
-        }
-
-        /*private void EditAppInfo(bool enable)
+        private void ButtonAppEnabled(bool enable)
         {
             if (enable)
             {
-                buttonSaveAppInfo.Visibility = Visibility.Visible;
-                buttonEditAppInfo.Visibility = Visibility.Hidden;
+                buttonAboutApp.IsEnabled = true;
+                buttonLaunch.IsEnabled = true;
 
             }
             else
             {
-                buttonSaveAppInfo.Visibility = Visibility.Hidden;
-                buttonEditAppInfo.Visibility = Visibility.Visible;
-
+                buttonAboutApp.IsEnabled = false;
+                buttonLaunch.IsEnabled = false;
             }
-        }*/
+        }
     }
 }
