@@ -30,7 +30,6 @@ namespace launcher.Pages
         {
             InitializeComponent();
             FileHelper fileData = new FileHelper();
-            FileSearch fileSearch = new FileSearch();
             DirectoryInfo[] directories;
 
             fileData.ReadFileData(pathsListData);
